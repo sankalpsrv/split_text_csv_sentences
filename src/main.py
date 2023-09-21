@@ -1,4 +1,5 @@
 import re
+import pandas as pd
 
 def split_into_sentences(text):
     # Regex pattern
@@ -53,5 +54,27 @@ def split_into_sentences(text):
         # remove last since only whitespace
         sentences = sentences[:-1]
     sentences = [s.strip() for s in sentences]
-
+    
     return sentences
+
+def dataframe():
+    filename = input('Please enter the name of the ".txt" file whose sentences you want to split \n')
+
+    with open(filename, "r") as file:
+        text=file.read()
+    
+    sentences=split_into_sentences(text)
+
+    df=pd.DataFrame(sentences)
+
+    new_filename = filename+".csv"
+
+    pattern_to_remove = r'.txt'
+    csv_filename = re.sub(pattern_to_remove, '', new_filename)
+    
+    df.to_csv(csv_filename)
+    print("File created with name: ", csv_filename)
+
+if __name__ == "__main__":
+    
+    dataframe()
